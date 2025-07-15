@@ -21,3 +21,10 @@ let episodes = [
 	{name: "The One Where Everybody Finds Out", season: 5, ep_no: 14, avg_rating: 9.5 }
 ]
 topEpisodes(episodes, 3);
+```
+## task 2
+
+### run
+`node main.js`
+
+### screenshots
