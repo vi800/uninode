@@ -1,33 +1,22 @@
 const express = require('express');
-const axios = require('axios');
 const app = express();
+const routes = require('./routes/routes');
+const controller = require('./controllers/controller');
 const port = 3000;
 
-let id = 431;
+async function initialize()
+{
+	try {
+		await controller.getId();
+		app.use('/', routes);
 
-app.get('/', (req, res) => {
-	res.send('<a href = /show-details>Show Details</a> <a href = /episodes>Episodes</a>')
-})
+		app.listen(port, () => {
+			console.log(`Running on port ${port}`)
+		})
+	} catch(err) {
+		console.log('Cannot find the id');
+		process.exit(1);
+	}
+}
 
-app.listen(port, () => {
-	console.log(`Listening port ${port}`)
-})
-
-// function getId()
-// {
-// 	axios.get('https://api.tvmaze.com/singlesearch/shows?q=friends').then((res) => {
-// 		id = res.data.id;
-// 	});
-// }
-
-app.get('/show-details', (req, res) => {
-	axios.get(`https://api.tvmaze.com/shows/${id}`).then((data) => {
-		res.send(data.data);
-	})
-})
-
-app.get('/episodes', (req, res) => {
-	axios.get(`https://api.tvmaze.com/shows/${id}/episodes`).then((data) => {
-		res.send(data.data);
-	})
-})
+initialize();
